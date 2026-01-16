@@ -10,6 +10,7 @@ class Config:
     GROUP_CHAT_ID: int = int(os.getenv("GROUP_CHAT_ID", "0"))
     NOTIFICATION_DAY: int = int(os.getenv("NOTIFICATION_DAY", "0"))  # Monday
     NOTIFICATION_HOUR: int = int(os.getenv("NOTIFICATION_HOUR", "9"))
+    TIMEZONE: str = os.getenv("TIMEZONE", "UTC")
     # Default to Postgres in Docker, fallback to sqlite locally if needed
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL", 

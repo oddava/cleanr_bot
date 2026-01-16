@@ -19,4 +19,7 @@ shell:
 	docker compose exec bot /bin/bash
 
 lock:
-	uv lock
+	docker compose run --rm bot uv lock
+
+test:
+	docker compose run --rm bot uv run python -m pytest

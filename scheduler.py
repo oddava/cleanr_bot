@@ -10,7 +10,7 @@ from services.assignment import shuffle_assignments
 from services.notifier import send_weekly_notification
 
 
-scheduler = AsyncIOScheduler()
+scheduler = AsyncIOScheduler(timezone=config.TIMEZONE)
 
 
 async def weekly_shuffle_and_notify(bot: Bot):
