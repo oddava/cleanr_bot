@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import BigInteger, Boolean, ForeignKey, Integer, String, DateTime
+from sqlalchemy import BigInteger, Boolean, ForeignKey, Integer, String, DateTime, select
 from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -16,6 +16,7 @@ class Member(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     telegram_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
+    username: Mapped[str | None] = mapped_column(String(100), nullable=True)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     

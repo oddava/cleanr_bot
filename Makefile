@@ -12,6 +12,9 @@ build:
 logs:
 	docker compose logs -f
 
+log:
+	docker compose logs -f
+
 shell:
 	docker compose exec bot /bin/bash
 
