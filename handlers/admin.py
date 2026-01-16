@@ -152,16 +152,63 @@ async def cb_remove_task_action(callback: CallbackQuery):
 
 # ============== Shuffle & Actions ==============
 
+@router.message(Command("shuffle"))
+async def cmd_shuffle(message: Message):
+    """Manually trigger assignment shuffle."""
+    if not is_superuser(message.from_user.id):
+        await message.answer("⛔ This command is for admins only.")
+        return
+    
+    async with async_session() as session:
+        assignments = await shuffle_assignments(session)
+        
+        if not assignments:
+            # Check why it failed
+            from services.assignment import get_active_members, get_active_tasks
+            members = await get_active_members(session)
+            tasks = await get_active_tasks(session)
+            
+            error_msg = "⚠️ *Cannot shuffle yet!*"
+            if not members:
+                error_msg += "\n• No active members found. Share the join link!"
+            if not tasks:
+                error_msg += "\n• No tasks found. Add some tasks first."
+                
+            await message.answer(error_msg, parse_mode="Markdown")
+            return
+
+        schedule = format_assignments_table(assignments)
+        
+        await message.answer(
+            f"🔀 *Assignments Shuffled!*\n\n{schedule}",
+            parse_mode="Markdown"
+        )
+
+
 @router.callback_query(F.data == "shuffle_now")
 async def cb_shuffle_now(callback: CallbackQuery):
     async with async_session() as session:
         assignments = await shuffle_assignments(session)
-        schedule = format_assignments_table(assignments)
         
-        await callback.message.answer(
-            f"🔀 *Assignments Shuffled!*\n\n{schedule}",
-            parse_mode="Markdown"
-        )
+        if not assignments:
+            # Check why it failed
+            from services.assignment import get_active_members, get_active_tasks
+            members = await get_active_members(session)
+            tasks = await get_active_tasks(session)
+            
+            error_msg = "⚠️ *Cannot shuffle yet!*"
+            if not members:
+                error_msg += "\n• No active members found. Share the join link!"
+            if not tasks:
+                error_msg += "\n• No tasks found. Add some tasks first."
+            
+            await callback.message.answer(error_msg, parse_mode="Markdown")
+        else:
+            schedule = format_assignments_table(assignments)
+            await callback.message.answer(
+                f"🔀 *Assignments Shuffled!*\n\n{schedule}",
+                parse_mode="Markdown"
+            )
     await callback.answer()
 
 
