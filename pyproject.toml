@@ -1,0 +1,17 @@
+[project]
+name = "cleanr-bot"
+version = "0.1.0"
+description = "Telegram bot for weekly cleaning duties"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiogram>=3.17.0",
+    "sqlalchemy>=2.0.36",
+    "apscheduler>=3.11.0",
+    "python-dotenv>=1.0.1",
+    "asyncpg>=0.30.0",
+    "greenlet>=3.1.1",
+]
+
+[tool.uv]
+dev-dependencies = []
