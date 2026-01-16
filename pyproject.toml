@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "Telegram bot for weekly cleaning duties"
 readme = "README.md"
 requires-python = ">=3.12"
+authors = [
+    {name = "Oddava", email = "oddava@proton.me"}
+]
+license = {text = "MIT"}
 dependencies = [
     "aiogram>=3.17.0",
     "sqlalchemy>=2.0.36",
